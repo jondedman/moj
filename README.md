@@ -1,1 +1,1 @@
-# moj
+# MOJ checkout take home challenge
