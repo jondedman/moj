@@ -1,2 +1,1 @@
-# react-course
-# moj
+# MOJ checkout take home challenge
