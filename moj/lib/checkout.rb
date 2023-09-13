@@ -50,9 +50,11 @@ class Checkout
 end
 # Example usage of Checkout class - manual tests
 checkout = Checkout.new
-checkout.scan("FR1")
+checkout.scan("SR1")
+checkout.scan("SR1")
 checkout.scan("SR1")
 checkout.scan("CF1")
+checkout.scan("FR1")
 
 
 total_price = checkout.calculate_total
