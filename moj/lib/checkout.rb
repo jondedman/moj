@@ -12,21 +12,23 @@ class Checkout
       "SR1" => { type: :volume_discount, quantity: 3, discounted_price: 4.50 }  # Bulk discount for Strawberries
     }
   end
-
   def scan(item)
+    if @prices.key?(item)
     @cart << item
+  else
+    puts "Invalid item: #{item}"
+  end
   end
 
   def calculate_total
     total = 0
     item_counts = Hash.new(0)
-
     @cart.each do |item|
       item_counts[item] += 1
-    end
 
+    end
     item_counts.each do |item, count|
-      if @discounts.key?(item)
+      if @discounts.key?(item) && count.positive?
         discount = @discounts[item]
         if discount[:type] == :buy_one_get_one_free
           discounted_items = (count / 2).floor
@@ -35,38 +37,23 @@ class Checkout
         elsif discount[:type] == :volume_discount && count >= discount[:quantity]
           discounted_items = count * discount[:discounted_price]
           total += discounted_items
+        elsif discount[:type] == :volume_discount && count < discount[:quantity]
+          discounted_items = count * discount[:discounted_price]
+          total += count * @prices[item]
         end
-
       else
         total += count * @prices[item]
       end
     end
-
     total.round(2)
   end
 end
-
-# Example usage:
+# Example usage of Checkout class - manual tests
 checkout = Checkout.new
 checkout.scan("FR1")
 checkout.scan("SR1")
-checkout.scan("FR1")
-checkout.scan("CF1")
-checkout.scan("SR1")
-checkout.scan("SR1")
-checkout.scan("FR1")
-checkout.scan("FR1")
-checkout.scan("FR1")
-checkout.scan("FR1")
-checkout.scan("FR1")
-checkout.scan("SR1")
 checkout.scan("CF1")
 
-
-# 7 Fruit teas at £3.11 each = £12.44
-# 4 Strawberries at £5.00 each = £18.00
-# 2 Coffees at £11.23 each = £22.46
-# Total = £50.90
 
 total_price = checkout.calculate_total
 puts "Total Price: £#{total_price}"
