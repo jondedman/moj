@@ -10,6 +10,7 @@ RSpec.describe Checkout do
       checkout.scan('FR1')
       checkout.scan('InvalidItem')
       checkout.scan('SR1')
+      checkout.scan('InvalidItem')
       expect(checkout.calculate_total).to eq(8.11)
     end
   end
