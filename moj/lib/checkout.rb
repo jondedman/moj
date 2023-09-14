@@ -62,7 +62,7 @@ class Checkout
     calculate_regular_price(item, count)
   end
 
-  # Methods to calculate the total price for each discount type.
+  # Methods to calculate the total price for each discount type. consider making these private.
 
   # Buy one, get one free.
   def calculate_bogo_discount(item, count)
@@ -76,6 +76,8 @@ class Checkout
     discount = @discounts[item][:discounted_price]
     count * discount
   end
+
+  # add further discount methods here
 
   # No discount.
   def calculate_regular_price(item, count)
@@ -91,6 +93,12 @@ checkout.scan('SR1')
 checkout.scan('CF1')
 checkout.scan('FR1')
 checkout.scan('jk5')
+
+# sr1 * 3 = 13.50
+# cf1 = 11.23
+# fr1 = 3.11
+# jk5 = invalid
+# total = 27.84
 
 total_price = checkout.calculate_total
 puts "Total Price: £#{total_price}"
